@@ -9,7 +9,7 @@
 
     <div class="kv" fxLayout="row" fxLayoutAlign="start stretch">
       <label fxFlex="40" fxFlex.gt-xs="20"><md-icon color="accent">watch_later</md-icon> Coop time:</label>
-      <p fxFlex *ngIf="status">{{ time() | date:'medium' }}</p>
+      <p fxFlex *ngIf="status">{{ time() | date:'dd/MM/y H:m:s' }}</p>
     </div>
 
     <div class="kv" fxLayout="row" fxLayoutAlign="start stretch">
@@ -19,10 +19,35 @@
 
     <div class="kv" fxLayout="row" fxLayoutAlign="start stretch">
       <label fxFlex="40" fxFlex.gt-xs="20"><md-icon color="accent">av_timer</md-icon> Timers:</label>
-      <ul fxFlex *ngIf="status">
-        <li>Open: {{ timer('open') }}</li>
-        <li>Close: {{ timer('close') }}</li>
-      </ul>
+      <form novalidate (ngSubmit)="onSubmit()" [formGroup]="timerForm" fxFlex *ngIf="status">
+        <ul>
+          <li>
+            <md-select placeholder="Opening hour" formControlName="openHour">
+              <md-option *ngFor="let hour of hours" [value]="hour.value">
+                {{hour.text}}
+              </md-option>
+            </md-select>
+            <md-select placeholder="Opening minute" formControlName="openMinute">
+              <md-option *ngFor="let minute of minutes" [value]="minute.value">
+                {{minute.text}}
+              </md-option>
+            </md-select>
+          </li>
+          <li>
+            <md-select placeholder="Closing hour" formControlName="closeHour">
+              <md-option *ngFor="let hour of hours" [value]="hour.value">
+                {{hour.text}}
+              </md-option>
+            </md-select>
+            <md-select placeholder="Closing minute" formControlName="closeMinute">
+              <md-option *ngFor="let minute of minutes" [value]="minute.value">
+                {{minute.text}}
+              </md-option>
+            </md-select>
+          </li>
+        </ul>
+        <button [disabled]="timerForm.pristine" type="submit" md-raised-button color="primary">Update</button>
+      </form>
     </div>
   </md-card-content>
 </md-card>

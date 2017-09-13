@@ -2,6 +2,7 @@ import { Component, Inject } from '@nestjs/common';
 import { Socket } from 'net';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
+import { CoopStatus } from '@shared/coop-status';
 
 export enum Commands {
   HELLO = 1,
@@ -15,21 +16,6 @@ export enum Commands {
 export interface CoopClientOptions {
   port: number;
   host: string;
-}
-
-export interface CoopStatus {
-  timer: {
-    open: [number, number],
-    close: [number, number]
-  };
-  door: {
-    isOpen: boolean,
-    isClosed: boolean,
-    isOpening: boolean,
-    isClosing: boolean,
-  };
-  time: number;
-  rssi: number;
 }
 
 function intToBytes (num: number): number[] {
@@ -67,9 +53,11 @@ export class CoopClient {
       const flags = data.readUInt8(5);
 
       this._observer.next({
-        timer: {
-          open: [data.readUInt8(1), data.readUInt8(2)],
-          close: [data.readUInt8(3), data.readUInt8(4)]
+        timers: {
+          openHour: data.readUInt8(1),
+          openMinute: data.readUInt8(2),
+          closeHour: data.readUInt8(3),
+          closeMinute: data.readUInt8(4),
         },
         door: {
           isOpen: !!(flags & 0x01),
@@ -133,8 +121,8 @@ export class CoopClient {
     return this.send(...[Commands.SYNC_TIME].concat(intToBytes(timestamp)));
   }
 
-  setTimer (openHour: number, openMin: number, closeHour: number, closeMin: number): Promise<any> {
-    return this.send(Commands.SET_TIMER, openHour, openMin, closeHour, closeMin);
+  setTimers (timers: CoopStatus['timers']): Promise<any> {
+    return this.send(Commands.SET_TIMER, timers.openHour, timers.openMinute, timers.closeHour, timers.closeMinute);
   }
 
   open (): Promise<any> {

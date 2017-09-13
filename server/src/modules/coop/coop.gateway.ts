@@ -62,4 +62,9 @@ export class CoopGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   onStatus (client, data): void {
     this.client.status();
   }
+
+  @SubscribeMessage('timers')
+  onTimers (client, data): void {
+    this.client.setTimers(data);
+  }
 }

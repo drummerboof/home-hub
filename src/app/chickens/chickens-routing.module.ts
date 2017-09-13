@@ -5,7 +5,8 @@ import { ChickensHomeComponent } from './chickens-home.component';
 const routes: Routes = [
   {
     path: 'chickens',
-    component: ChickensHomeComponent
+    component: ChickensHomeComponent,
+    data: { title: 'Chickens' }
   },
 ];
 

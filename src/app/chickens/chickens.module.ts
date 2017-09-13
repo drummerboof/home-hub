@@ -1,11 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { MdCardModule, MdFormFieldModule, MdIconModule, MdInputModule } from '@angular/material';
+import {
+  MdButtonModule, MdCardModule, MdFormFieldModule, MdIconModule, MdInputModule,
+  MdSelectModule
+} from '@angular/material';
 
 import { ChickensHomeComponent } from './chickens-home.component';
 import { ChickensRoutingModule } from './chickens-routing.module';
 import { CoopClient } from './coop-client.service';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -15,6 +19,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MdInputModule,
     MdIconModule,
     FlexLayoutModule,
+    MdSelectModule,
+    ReactiveFormsModule,
+    MdButtonModule,
   ],
   providers: [
     CoopClient,

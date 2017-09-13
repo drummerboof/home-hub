@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { CoopClient, CoopStatus } from './coop-client.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import * as times from 'lodash.times';
+import { CoopStatus } from '@shared/coop-status';
+import { CoopClient } from './coop-client.service';
 
 const padNum = (num) => (num < 10 ? '0' : '') + num;
 
@@ -16,26 +19,35 @@ export class ChickensHomeComponent {
     isClosed: 'Closed',
   };
 
-  loadedTime = 0;
-
-  realTimeOffset = 0;
-
+  timerForm: FormGroup;
   status: CoopStatus;
+  hours = times(24, (value) => ({ value, text: padNum(value) }));
+  minutes = times(12, (value) => ({ value: value * 5, text: padNum(value * 5) }));
 
-  constructor (coopClient: CoopClient) {
-    coopClient.onStatus().subscribe((status) => {
-      this.status = status;
-      this.loadedTime = Date.now();
+
+  constructor (private readonly coopClient: CoopClient, private readonly fb: FormBuilder) {
+    this.timerForm = this.fb.group({
+      openHour: 0,
+      openMinute: 0,
+      closeHour: 0,
+      closeMinute: 0,
     });
+
+    coopClient.status().subscribe((status) => {
+      this.status = status;
+      if (this.timerForm.pristine) {
+        this.timerForm.setValue(this.status.timers, { emitEvent: false });
+      }
+    });
+  }
+
+  onSubmit () {
+    this.coopClient.setTimers(this.timerForm.value);
   }
 
   time () {
     const offset = (new Date()).getTimezoneOffset();
     return (this.status.time + offset * 60) * 1000;
-  }
-
-  timer (which: 'open' | 'close') {
-    return `${padNum(this.status.timer[which][0])}:${padNum(this.status.timer[which][1])}`;
   }
 
   doorStatus () {
