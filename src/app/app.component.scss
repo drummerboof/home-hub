@@ -1,0 +1,16 @@
+:host {
+  .app__content {
+    padding: 1rem;
+  }
+
+  .app__title {
+    position: relative;
+    padding-left: 2rem;
+
+    md-icon {
+      position: absolute;
+      left: 0;
+      top: 0.2rem;
+    }
+  }
+}

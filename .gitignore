@@ -37,6 +37,15 @@ testem.log
 /e2e/*.js
 /e2e/*.map
 
+# server
+# tests
+/server/test
+/server/coverage
+/server/.nyc_output
+
+# dist
+/server/dist
+
 # System Files
 .DS_Store
 Thumbs.db
