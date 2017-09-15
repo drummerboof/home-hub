@@ -13,7 +13,7 @@ import * as throttle from 'lodash.throttle';
 
 import { CoopClient } from './services/coop-client';
 
-@WebSocketGateway({ port: 8001, namespace: 'coop' })
+@WebSocketGateway({ port: 3001, namespace: 'coop' })
 export class CoopGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   clientCount = 0;
   statusTimeout: Timer;

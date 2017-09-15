@@ -10,7 +10,7 @@ export class CoopClient {
   private statusObservable: Observable<CoopStatus>;
 
   constructor () {
-    this.socket = io('http://localhost:8001/coop', {
+    this.socket = io('/coop', {
       autoConnect: false
     });
     this.statusObservable = Observable.fromEvent(this.socket, 'status');

@@ -17,6 +17,7 @@
     "rxjs": "^5.4.2"
   },
   "devDependencies": {
+    "ts-node": "3.3.0",
     "typescript": "~2.3.3"
   }
 }
