@@ -6,3 +6,5 @@ export async function bootstrap () {
   app.setGlobalPrefix(ApplicationModule.PREFIX);
   await app.listen(3000);
 }
+
+bootstrap();

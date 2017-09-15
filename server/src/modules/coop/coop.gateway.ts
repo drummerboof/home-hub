@@ -24,6 +24,7 @@ export class CoopGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   }
 
   afterInit (server: Server) {
+    console.log('Connecting...');
     this.client.connect().then(() => {
       this.client.statusMessages.subscribe((status) => {
         server.emit('status', status);

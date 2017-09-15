@@ -1,4 +1,4 @@
 require('ts-node/register');
-const { bootstrap } = require('./src/server');
+require('./src/server');
 
-bootstrap();
+

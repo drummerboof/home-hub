@@ -95,6 +95,7 @@ export class CoopClient {
   }
 
   connect (): Promise<any> {
+    console.log(this.options);
     return new Promise((resolve, reject) => {
       this.socket.connect(this.options.port, this.options.host, (error) => {
         if (error) {
