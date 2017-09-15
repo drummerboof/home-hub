@@ -1,0 +1,7 @@
+apps:
+  - script: ./server/src/server.js
+    name: 'home-hub'
+    exec_mode: fork
+    cwd: /home/home-hub/home-hub-current
+    env:
+      NODE_ENV: production

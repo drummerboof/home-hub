@@ -7,6 +7,7 @@ npm run build
 
 echo "Copying in config..."
 cp -R server/config dist/
+cp pm2.yaml dist/
 
 echo "Copying in server node_modules..."
 cp -R server/node_modules dist/
@@ -26,14 +27,14 @@ if [[ -d "${dirName}" ]]; then
 fi
 
 tar xzf ${dirName}.tgz
-pm2 stop home-hub
 rm home-hub-current
 ln -s ${dirName} home-hub-current
-pm2 start server/src/server.js --name "home-hub" --cwd "home-hub-current"
+pm2 gracefulReload home-hub-current/pm2.yaml
 rm ${dirName}.tgz
 ENDSSH
 
 echo "Cleaning up..."
 rm -rf ${dirName}
+rm ${dirName}.tgz
 
 echo "Done"
