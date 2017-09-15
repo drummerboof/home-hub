@@ -25,6 +25,14 @@ export class CoopClient {
     return this.onStatus();
   }
 
+  open () {
+    this.socket.emit('open');
+  }
+
+  close () {
+    this.socket.emit('close');
+  }
+
   setTimers (timerData: CoopStatus['timers']) {
     this.socket.emit('timers', timerData);
   }

@@ -20,6 +20,7 @@ export class ChickensHomeComponent {
   };
 
   timerForm: FormGroup;
+  timersSubmitted = false;
   status: CoopStatus;
   hours = times(24, (value) => ({ value, text: padNum(value) }));
   minutes = times(12, (value) => ({ value: value * 5, text: padNum(value * 5) }));
@@ -35,13 +36,23 @@ export class ChickensHomeComponent {
 
     coopClient.status().subscribe((status) => {
       this.status = status;
-      if (this.timerForm.pristine) {
-        this.timerForm.setValue(this.status.timers, { emitEvent: false });
+      if (this.timerForm.pristine || this.timersSubmitted) {
+        this.timerForm.reset(this.status.timers, { emitEvent: false });
+        this.timersSubmitted = false;
       }
     });
   }
 
+  onOpen () {
+    console.log('this.coopClient.open();');
+  }
+
+  onClose () {
+    console.log('this.coopClient.close();');
+  }
+
   onSubmit () {
+    this.timersSubmitted = true;
     this.coopClient.setTimers(this.timerForm.value);
   }
 
