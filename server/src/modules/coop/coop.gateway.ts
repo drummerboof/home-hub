@@ -30,7 +30,7 @@ export class CoopGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
         server.emit('status', status);
         clearTimeout(this.statusTimeout);
         if (this.clientCount) {
-          this.statusTimeout = setTimeout(() => this.client.status(), 10000);
+          this.statusTimeout = setTimeout(() => this.client.status(), 30000);
         }
       });
     });
